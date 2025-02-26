@@ -1,0 +1,54 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# IntelliJ IDEA specific files
+.idea/
+*.iml
+*.iws
+out/
+
+# MacOS specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Build output directories
+build/
+dist/
+
+# Environment variable files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Coverage directory used by testing tools like Jest
+coverage/
+
+# Optional npm cache directory
+.npm
+
+# Typescript cache
+*.tsbuildinfo
+
+# Generated files by Yarn
+.yarn-integrity
+
+# Jest snapshots
+*.snap
+
+# IDE specific
+.vscode/
+.idea/
+
+# Ignore lock files
+yarn.lock
+.vercel
