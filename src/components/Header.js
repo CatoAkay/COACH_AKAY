@@ -11,6 +11,7 @@ const HeaderSection = styled.header`
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding: 0 20px; /* Add horizontal padding for small screens */
 
     &:before {
         content: '';
@@ -19,7 +20,7 @@ const HeaderSection = styled.header`
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.7); /* Slightly darker overlay for better contrast */
+        background: rgba(0, 0, 0, 0.7);
         z-index: 1;
     }
 `;
@@ -28,16 +29,26 @@ const Title = styled.h1`
     font-size: 4rem;
     padding: 20px;
     position: relative;
-    color: #dcdcdc; /* Lighter gray for better readability */
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9); /* Stronger shadow for better contrast */
-    font-family: 'Arial Black', sans-serif; /* A bolder font for emphasis */
+    color: #dcdcdc;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+    font-family: 'Arial Black', sans-serif;
+
+    @media (max-width: 600px) {
+        font-size: 2.2rem;
+        padding: 10px 0;
+    }
 `;
 
 const Subtitle = styled.h2`
     font-size: 2rem;
-    color: #ffffff; /* White color for better contrast */
-    margin-top: 10px; /* Space between title and subtitle */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Strong shadow for depth */
+    color: #ffffff;
+    margin-top: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+
+    @media (max-width: 600px) {
+        font-size: 1.1rem;
+        word-break: break-word;
+    }
 `;
 
 function Header() {
