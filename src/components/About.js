@@ -95,8 +95,8 @@ function About() {
       {/* About Me Section */}
       <StyledTitle>About Me</StyledTitle>
       <StyledDescription>
-        Hi, I'm Akay, a certified coach passionate about helping you reach your full potential. Whether it's fitness,
-        health, or well-being, I'm here to guide you every step of the way.
+        Hi, I’m Akay - a Norwegian CrossFit athlete. I offer experience-based coaching to help you move better,
+        get stronger, and build habits that last.
       </StyledDescription>
       <StyledImageContainerHover>
         <StyledExpectImage
@@ -127,8 +127,8 @@ function About() {
 
       <StyledTitle>More Info</StyledTitle>
       <StyledDescription>
-        Hi! I'm Akay, a dedicated fitness coach passionate about helping people reach their full potential. With years
-        of experience in CrossFit and personal training, I focus on holistic development, building both physical
+        I'm a dedicated fitness athlete passionate about helping people reach their full potential. With years
+        of experience in CrossFit and training, I focus on holistic development, building both physical
         strength and mental resilience.
       </StyledDescription>
     </StyledAboutSection>
