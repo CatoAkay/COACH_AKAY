@@ -1,25 +1,26 @@
-import styled from "styled-components";
 import React from 'react';
+import styled from "styled-components";
 
-const FooterContainer = styled.div`
-    background-color: rgba(30, 30, 30, 0.9); // Slightly lighter dark background
-    padding: 20px 0; // Vertical padding
-    text-align: center; // Center the text
+const FooterWrapper = styled.footer`
+    background-color: rgba(15, 15, 15, 0.95);
+    padding: 24px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
 `;
 
 const FooterText = styled.p`
-    color: #e0e0e0; // Lighter gray for better contrast
-    margin: 0; // Remove default margin
-    font-size: 1rem; // Adjust font size
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); // Subtle shadow for depth
+    color: #a0a0a0;
+    margin: 0;
+    font-size: 0.95rem;
 `;
 
-const FooterSection = () => {
-  return (
-    <FooterContainer>
-      <FooterText>&copy; 2024 Akay Coaching. All rights reserved.</FooterText>
-    </FooterContainer>
-  );
-};
+function Footer() {
+    const year = new Date().getFullYear();
+    return (
+        <FooterWrapper>
+            <FooterText>&copy; {year} Akay Coaching. All rights reserved.</FooterText>
+        </FooterWrapper>
+    );
+}
 
-export default FooterSection;
+export default Footer;

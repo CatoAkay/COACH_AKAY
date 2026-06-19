@@ -23,7 +23,7 @@ out/
 build/
 dist/
 
-# Environment variable files
+# Environment variable files – NEVER commit these
 .env
 .env.local
 .env.development.local
@@ -45,10 +45,5 @@ coverage/
 # Jest snapshots
 *.snap
 
-# IDE specific
-.vscode/
-.idea/
-
-# Ignore lock files
-yarn.lock
+# Vercel
 .vercel

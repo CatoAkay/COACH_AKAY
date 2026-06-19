@@ -20,36 +20,57 @@ const Form = styled.form`
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    gap: 4px;
 `;
 
-const Input = styled.input`
+const FieldGroup = styled.div`
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 8px;
+`;
+
+const Label = styled.label`
+    color: #b0b0b0;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+`;
+
+const sharedInputStyles = `
     padding: 15px;
-    margin: 10px 0;
     font-size: 1.1rem;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
-    color: #b0b0b0;
+    color: #dcdcdc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+    font-family: inherit;
 
     &::placeholder {
-        color: #b0b0b0;
+        color: #888;
+    }
+
+    &:focus {
+        border-color: #2b4d4d;
+        box-shadow: 0 0 0 3px rgba(43, 77, 77, 0.4);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 `;
+
+const Input = styled.input`${sharedInputStyles}`;
 
 const TextArea = styled.textarea`
-    padding: 15px;
-    margin: 10px 0;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #b0b0b0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-
-    &::placeholder {
-        color: #b0b0b0;
-    }
+    ${sharedInputStyles}
+    resize: vertical;
+    min-height: 120px;
 `;
 
 const Button = styled.button`
@@ -60,33 +81,39 @@ const Button = styled.button`
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.2rem;
-    transition: background-color 0.3s;
+    margin-top: 8px;
+    transition: background-color 0.3s, transform 0.2s;
 
     &:hover:enabled {
         background-color: #1f3838;
+        transform: translateY(-1px);
     }
 
     &:disabled {
-        background-color: #888;
+        background-color: #555;
         cursor: not-allowed;
     }
 `;
 
-const ThankYouMessage = styled.div`
+const StatusMessage = styled.div`
     margin-top: 20px;
-    color: #dcdcdc;
-    font-size: 1.5rem;
-`;
-
-const Warning = styled.div`
-    color: #ffb347;
-    margin-bottom: 10px;
     font-size: 1.1rem;
+    padding: 12px 16px;
+    border-radius: 5px;
+    color: ${({ $type }) => ($type === "error" ? "#ff6b6b" : $type === "success" ? "#69db7c" : "#ffb347")};
+    background-color: ${({ $type }) =>
+        $type === "error"
+            ? "rgba(255, 107, 107, 0.1)"
+            : $type === "success"
+            ? "rgba(105, 219, 124, 0.1)"
+            : "rgba(255, 179, 71, 0.1)"};
+    border: 1px solid ${({ $type }) =>
+        $type === "error" ? "rgba(255, 107, 107, 0.3)" : $type === "success" ? "rgba(105, 219, 124, 0.3)" : "rgba(255, 179, 71, 0.3)"};
 `;
 
 const spin = keyframes`
-    0% { transform: rotate(0deg);}
-    100% { transform: rotate(360deg);}
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 `;
 
 const Spinner = styled.div`
@@ -100,92 +127,114 @@ const Spinner = styled.div`
 `;
 
 function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
+    const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+    const [status, setStatus] = useState(null); // null | "warning" | "success" | "error"
+    const [sending, setSending] = useState(false);
 
-  const isFormValid =
-    formData.name.trim() !== "" &&
-    formData.email.trim() !== "" &&
-    formData.message.trim() !== "";
+    const isFormValid =
+        formData.name.trim() !== "" &&
+        formData.email.trim() !== "" &&
+        formData.message.trim() !== "";
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!isFormValid) {
-      setShowWarning(true);
-      setTimeout(() => setShowWarning(false), 2000);
-      return;
-    }
-    setSending(true);
-
-    const message = `
-      Name: ${formData.name}
-      Email: ${formData.email}
-      Message: ${formData.message}
-    `;
-
-    const emailParams = {
-      name: formData.name,
-      email: formData.email,
-      message: message,
+    const handleChange = (e) => {
+        setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    emailjs
-      .send("service_2iorjdh", "template_vhscy1f", emailParams, "tAULykMHD46veExPq")
-      .then(() => {
-        setFormData({ name: "", email: "", message: "" });
-        setSubmitted(true);
-        setSending(false);
-      })
-      .catch((err) => {
-        setSending(false);
-        console.error("Failed to send email.", err);
-      });
-  };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!isFormValid) {
+            setStatus("warning");
+            setTimeout(() => setStatus(null), 3000);
+            return;
+        }
+        setSending(true);
+        setStatus(null);
 
-  return (
-    <ContactSection id="contact">
-      <ContactTitle>Contact Me</ContactTitle>
-      <Form onSubmit={handleSubmit}>
-        {showWarning && <Warning>Please fill out all fields before sending.</Warning>}
-        <Input
-          type="text"
-          placeholder="Your Name"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          disabled={submitted || sending}
-        />
-        <Input
-          type="email"
-          placeholder="Your Email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          disabled={submitted || sending}
-        />
-        <TextArea
-          rows="5"
-          placeholder="Your Message"
-          value={formData.message}
-          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-          disabled={submitted || sending}
-        />
-        {!submitted ? (
-          sending ? (
-            <Spinner />
-          ) : (
-            <Button type="submit">Send Message</Button>
-          )
-        ) : (
-          <ThankYouMessage>Thank you! I will be in touch!</ThankYouMessage>
-        )}
-      </Form>
-    </ContactSection>
-  );
+        const emailParams = {
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+        };
+
+        emailjs
+            .send(
+                process.env.REACT_APP_EMAILJS_SERVICE_ID,
+                process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+                emailParams,
+                process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+            )
+            .then(() => {
+                setFormData({ name: "", email: "", message: "" });
+                setStatus("success");
+                setSending(false);
+            })
+            .catch(() => {
+                setSending(false);
+                setStatus("error");
+            });
+    };
+
+    return (
+        <ContactSection id="contact">
+            <ContactTitle>Contact Me</ContactTitle>
+            <Form onSubmit={handleSubmit} noValidate>
+                <FieldGroup>
+                    <Label htmlFor="contact-name">Your Name</Label>
+                    <Input
+                        id="contact-name"
+                        type="text"
+                        name="name"
+                        placeholder="Ola Nordmann"
+                        value={formData.name}
+                        onChange={handleChange}
+                        disabled={status === "success" || sending}
+                        autoComplete="name"
+                    />
+                </FieldGroup>
+                <FieldGroup>
+                    <Label htmlFor="contact-email">Your Email</Label>
+                    <Input
+                        id="contact-email"
+                        type="email"
+                        name="email"
+                        placeholder="ola@example.com"
+                        value={formData.email}
+                        onChange={handleChange}
+                        disabled={status === "success" || sending}
+                        autoComplete="email"
+                    />
+                </FieldGroup>
+                <FieldGroup>
+                    <Label htmlFor="contact-message">Your Message</Label>
+                    <TextArea
+                        id="contact-message"
+                        name="message"
+                        rows="5"
+                        placeholder="Hi Akay, I would like to know more about..."
+                        value={formData.message}
+                        onChange={handleChange}
+                        disabled={status === "success" || sending}
+                    />
+                </FieldGroup>
+
+                {status === "warning" && (
+                    <StatusMessage $type="warning">Please fill out all fields before sending.</StatusMessage>
+                )}
+                {status === "error" && (
+                    <StatusMessage $type="error">
+                        Something went wrong. Please try again or email me directly.
+                    </StatusMessage>
+                )}
+                {status === "success" ? (
+                    <StatusMessage $type="success">Thank you! I'll be in touch soon 🙌</StatusMessage>
+                ) : sending ? (
+                    <Spinner aria-label="Sending…" />
+                ) : (
+                    <Button type="submit">Send Message</Button>
+                )}
+            </Form>
+        </ContactSection>
+    );
 }
 
 export default ContactForm;

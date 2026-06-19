@@ -11,15 +11,12 @@ const HeaderSection = styled.header`
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 0 20px; /* Add horizontal padding for small screens */
+    padding: 0 20px;
 
-    &:before {
+    &::before {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         background: rgba(0, 0, 0, 0.7);
         z-index: 1;
     }
@@ -29,9 +26,11 @@ const Title = styled.h1`
     font-size: 4rem;
     padding: 20px;
     position: relative;
-    color: #dcdcdc;
+    z-index: 2;
+    color: #696969;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
     font-family: 'Arial Black', sans-serif;
+    margin: 0;
 
     @media (max-width: 600px) {
         font-size: 2.2rem;
@@ -41,8 +40,10 @@ const Title = styled.h1`
 
 const Subtitle = styled.h2`
     font-size: 2rem;
-    color: #ffffff;
+    color: #696969;
     margin-top: 10px;
+    position: relative;
+    z-index: 2;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 
     @media (max-width: 600px) {
@@ -52,12 +53,12 @@ const Subtitle = styled.h2`
 `;
 
 function Header() {
-  return (
-    <HeaderSection>
-      <Title>Akay Coaching</Title>
-      <Subtitle>Your Journey to Fitness Awaits</Subtitle>
-    </HeaderSection>
-  );
+    return (
+        <HeaderSection>
+            <Title>Akay Coaching</Title>
+            <Subtitle>Your Journey to Fitness Awaits</Subtitle>
+        </HeaderSection>
+    );
 }
 
 export default Header;
