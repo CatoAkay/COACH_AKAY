@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#080808" />
 
-    <!-- Performance: preconnect to font origins -->
+    <!-- ── Fonts ────────────────────────────────────────────── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,42 +13,172 @@
       rel="stylesheet"
     />
 
-    <!-- SEO -->
+    <!-- ── Primary SEO ──────────────────────────────────────── -->
     <title>Cato Akay – Engineered Performance Coaching</title>
     <meta
       name="description"
       content="Elite functional fitness coaching by Cato Akay – Norwegian Throwdown Champion, national competitor, senior software engineer. Data-driven, structured, results-focused coaching for ambitious athletes."
     />
-    <meta name="keywords" content="functional fitness coaching, CrossFit coach, online coaching Norway, performance coaching, Cato Akay, Norwegian Throwdown, engineered performance" />
+    <meta
+      name="keywords"
+      content="functional fitness coaching, CrossFit coach, online coaching Norway, performance coaching, Cato Akay, Norwegian Throwdown, engineered performance, athlete coaching, competition prep"
+    />
+    <meta name="author" content="Cato Akay" />
+    <meta name="robots" content="index, follow" />
 
-    <!-- Open Graph -->
+    <!-- Canonical URL — tells Google the definitive URL for this page -->
+    <link rel="canonical" href="https://catoakay.com/" />
+
+    <!-- ── Open Graph (Facebook, LinkedIn, iMessage, etc.) ──── -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://catoakay.com" />
+    <meta property="og:site_name" content="Cato Akay" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://catoakay.com/" />
     <meta property="og:title" content="Cato Akay – Engineered Performance Coaching" />
-    <meta property="og:description" content="Elite functional fitness coaching. Norwegian Throwdown Champion. Software Engineer. Data-driven programming for ambitious athletes." />
-    <meta property="og:image" content="%PUBLIC_URL%/pic/cato1.jpg" />
+    <meta
+      property="og:description"
+      content="Elite functional fitness coaching. Norwegian Throwdown Champion. Software Engineer. Data-driven programming for ambitious athletes and driven professionals."
+    />
+    <meta property="og:image" content="https://catoakay.com/pic/cato1.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Cato Akay – Elite Functional Fitness Athlete and Coach" />
 
-    <!-- Twitter Card -->
+    <!-- ── Twitter / X Card ─────────────────────────────────── -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@catoakay" />
+    <meta name="twitter:creator" content="@catoakay" />
     <meta name="twitter:title" content="Cato Akay – Engineered Performance Coaching" />
-    <meta name="twitter:description" content="Elite functional fitness coaching. Norwegian Throwdown Champion. Software Engineer." />
-    <meta name="twitter:image" content="%PUBLIC_URL%/pic/cato1.jpg" />
+    <meta
+      name="twitter:description"
+      content="Elite functional fitness coaching. Norwegian Throwdown Champion. Software Engineer. Data-driven programming for ambitious athletes."
+    />
+    <meta name="twitter:image" content="https://catoakay.com/pic/cato1.jpg" />
+    <meta name="twitter:image:alt" content="Cato Akay – Elite Functional Fitness Athlete and Coach" />
 
-    <!-- Structured Data -->
+    <!-- ── Structured Data (JSON-LD) ────────────────────────── -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Cato Akay",
-      "jobTitle": "Performance Coach & Software Engineer",
-      "description": "Elite functional fitness athlete, Norwegian Throwdown Champion, and senior software engineer offering data-driven performance coaching.",
-      "url": "https://catoakay.com",
-      "sameAs": [],
-      "knowsAbout": ["CrossFit", "Functional Fitness", "Performance Coaching", "Software Engineering"]
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://catoakay.com/#website",
+          "url": "https://catoakay.com/",
+          "name": "Cato Akay",
+          "description": "Engineered Performance Coaching by Cato Akay",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://catoakay.com/#person"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://catoakay.com/#webpage",
+          "url": "https://catoakay.com/",
+          "name": "Cato Akay – Engineered Performance Coaching",
+          "description": "Elite functional fitness coaching by Cato Akay – Norwegian Throwdown Champion, national competitor, senior software engineer.",
+          "isPartOf": { "@id": "https://catoakay.com/#website" },
+          "about": { "@id": "https://catoakay.com/#person" },
+          "inLanguage": "en"
+        },
+        {
+          "@type": "Person",
+          "@id": "https://catoakay.com/#person",
+          "name": "Cato Akay",
+          "url": "https://catoakay.com/",
+          "jobTitle": ["Performance Coach", "Software Engineer", "Functional Fitness Athlete"],
+          "description": "Norwegian Throwdown Champion, national-level functional fitness competitor, and senior software engineer offering elite data-driven performance coaching.",
+          "image": "https://catoakay.com/pic/cato1.jpg",
+          "nationality": {
+            "@type": "Country",
+            "name": "Norway"
+          },
+          "award": "Norwegian Throwdown Champion",
+          "knowsAbout": [
+            "CrossFit",
+            "Functional Fitness",
+            "Performance Coaching",
+            "Athletic Training",
+            "Software Engineering",
+            "Data-Driven Training",
+            "Competition Preparation"
+          ],
+          "hasOccupation": [
+            {
+              "@type": "Occupation",
+              "name": "Performance Coach",
+              "occupationLocation": { "@type": "Country", "name": "Norway" }
+            },
+            {
+              "@type": "Occupation",
+              "name": "Software Engineer",
+              "occupationLocation": { "@type": "Country", "name": "Norway" }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://catoakay.com/#service",
+          "name": "Engineered Performance Coaching",
+          "url": "https://catoakay.com/",
+          "provider": { "@id": "https://catoakay.com/#person" },
+          "serviceType": "Personal Training and Performance Coaching",
+          "description": "Data-driven, structured performance coaching for functional fitness athletes and ambitious professionals. Personalized programming, weekly check-ins, and competition preparation.",
+          "areaServed": {
+            "@type": "AdministrativeArea",
+            "name": "Worldwide"
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Coaching Programs",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Online Programming"
+                },
+                "price": "50",
+                "priceCurrency": "USD",
+                "priceSpecification": {
+                  "@type": "UnitPriceSpecification",
+                  "price": "50",
+                  "priceCurrency": "USD",
+                  "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" }
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Individual Coaching"
+                },
+                "price": "100",
+                "priceCurrency": "USD",
+                "priceSpecification": {
+                  "@type": "UnitPriceSpecification",
+                  "price": "100",
+                  "priceCurrency": "USD",
+                  "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" }
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Competition Prep Coaching"
+                },
+                "description": "Fully periodized competition cycles with peaking protocols and mental performance work."
+              }
+            ]
+          }
+        }
+      ]
     }
     </script>
 
-    <!-- Icons -->
+    <!-- ── Icons & Manifest ──────────────────────────────────── -->
     <link rel="icon" href="%PUBLIC_URL%/akayLogo.jpeg" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/akayLogo.jpeg" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
