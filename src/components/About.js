@@ -1,103 +1,220 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useRef } from 'react';
+import styled from 'styled-components';
+import { motion, useInView } from 'framer-motion';
+import { colors, fonts } from '../theme';
+import { fadeUp, slideRight, stagger } from '../animations';
 
-const StyledAboutSection = styled.section`
-    padding: 100px 20px;
-    text-align: center;
-    background-color: rgba(20, 20, 20, 0.9); // Dark background with transparency
+const Section = styled.section`
+  padding: 130px 6%;
+  background: ${colors.surface};
+
+  @media (max-width: 768px) { padding: 90px 6%; }
 `;
 
-const StyledTitle = styled.h2`
-    font-size: 3rem;
-    font-weight: bold;
-    color: #dcdcdc; // Light gray for the title
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
-    margin-bottom: 20px;
+const SectionLabel = styled(motion.span)`
+  display: block;
+  font-family: ${fonts.body};
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: ${colors.accent};
+  margin-bottom: 16px;
 `;
 
-const StyledDescription = styled.p`
-    font-size: 1.2rem;
-    margin: 20px auto;
-    max-width: 800px;
-    line-height: 1.8;
-    color: #b0b0b0; // Darker gray for description
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+const SectionTitle = styled(motion.h2)`
+  font-family: ${fonts.display};
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: ${colors.white};
+  line-height: 1;
+  margin-bottom: 48px;
 `;
 
-const StyledImageContainer = styled.div`
-    position: relative;
-    margin: 30px auto;
-    display: inline-block;
-    overflow: hidden;
-    border-radius: 15px; // Rounded corners for modern look
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); // Deep shadow for depth
-    max-width: 400px; // Limiting the image width to match the original size
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+const Layout = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 
-    &:hover {
-        transform: scale(1.05); // Slight zoom on hover for the container (includes image and shadow)
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7); // Stronger shadow on hover
-    }
-
-    &:hover img {
-        transform: scale(1.05); // Slight zoom on hover for the image
-    }
-
-    &:hover > div {
-        opacity: 1; // Make text visible when image is hovered
-    }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
 `;
 
-const StyledExpectImage = styled.img`
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 15px;
-    transition: transform 0.3s ease;
+const TextCol = styled(motion.div)``;
+
+const BodyText = styled.p`
+  font-family: ${fonts.body};
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  line-height: 1.85;
+  color: ${colors.textSecondary};
+  margin-bottom: 20px;
 `;
 
-const StyledOverlayText = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
+const Pillars = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 48px;
+  border: 1px solid ${colors.border};
+  border-radius: 4px;
+  overflow: hidden;
+`;
+
+const Pillar = styled(motion.div)`
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px 28px;
+  background: ${colors.surfaceAlt};
+  transition: background 0.3s ease;
+
+  &:not(:last-child) { border-bottom: 1px solid ${colors.border}; }
+  &:hover { background: ${colors.surfaceElevated}; }
+`;
+
+const PillarIcon = styled.div`
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+`;
+
+const PillarText = styled.div`
+  h4 {
+    font-family: ${fonts.display};
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: ${colors.white};
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  p {
+    font-family: ${fonts.body};
+    font-size: 0.9rem;
+    color: ${colors.textSecondary};
+    line-height: 1.6;
+  }
+`;
+
+const ImageCol = styled(motion.div)`
+  position: relative;
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+
+  img {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.5); // Dark background with transparency
-    color: #ffffff; // White text color
-    font-size: 1.3rem;
-    font-weight: bold;
-    text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
-    opacity: 0; // Initially hidden
-    transition: opacity 0.3s ease;
-    border-radius: 15px;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8); // Light text shadow for readability
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.7s ease;
+  }
+
+  &:hover img { transform: scale(1.04); }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(8,8,8,0.6) 100%);
+    pointer-events: none;
+  }
 `;
 
+const ImageBadge = styled.div`
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(8,8,8,0.9);
+  border: 1px solid ${colors.border};
+  border-left: 3px solid ${colors.accent};
+  padding: 14px 20px;
+  z-index: 2;
+  backdrop-filter: blur(8px);
+
+  span {
+    display: block;
+    font-family: ${fonts.body};
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: ${colors.accent};
+    margin-bottom: 4px;
+  }
+
+  strong {
+    display: block;
+    font-family: ${fonts.display};
+    font-size: 1.1rem;
+    color: ${colors.white};
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+`;
+
+const pillars = [
+  { icon: '⚡', title: 'The Engineer', text: 'Systematic thinking. Data-driven decisions. Precision applied to every variable in your training.' },
+  { icon: '🏆', title: 'The Athlete', text: 'Norwegian Throwdown Champion. National competitor. I compete at the level I coach.' },
+  { icon: '🎯', title: 'The Coach', text: "Every hard lesson from the platform — brought directly into your programming." },
+];
+
 function About() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.15 });
+
   return (
-    <StyledAboutSection id="about">
-      {/* About Me Section */}
-      <StyledTitle>About Me</StyledTitle>
-      <StyledDescription>
-        Hi, I'm Akay — a Norwegian CrossFit athlete. I offer experience-based coaching to help you move
-        better, get stronger, and build habits that last. With years of experience in CrossFit and training,
-        I focus on holistic development, building both physical strength and mental resilience.
-      </StyledDescription>
-      <StyledImageContainer>
-        <StyledExpectImage
-          src="/pic/cato1.jpg"
-          alt="Akay – CrossFit athlete and coach"
-        />
-        <StyledOverlayText>
-          "Your potential is endless. Believe in yourself!"
-        </StyledOverlayText>
-      </StyledImageContainer>
-    </StyledAboutSection>
+    <Section id="about" ref={ref}>
+      <Layout>
+        <TextCol variants={stagger} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
+          <SectionLabel variants={fadeUp}>The Story</SectionLabel>
+          <SectionTitle variants={fadeUp}>More Than<br />a Coach.</SectionTitle>
+          <motion.div variants={fadeUp}>
+            <BodyText>
+              I'm a senior software engineer who competes at national level in functional fitness.
+              That combination is rare — and it shapes everything about how I coach.
+            </BodyText>
+            <BodyText>
+              When I build your program, I bring the same rigor I apply to engineering systems:
+              structured progressions, measurable outcomes, and intelligent adaptation.
+              This isn't guesswork. This is engineered.
+            </BodyText>
+          </motion.div>
+          <Pillars variants={stagger}>
+            {pillars.map(({ icon, title, text }) => (
+              <Pillar key={title} variants={fadeUp}>
+                <PillarIcon>{icon}</PillarIcon>
+                <PillarText>
+                  <h4>{title}</h4>
+                  <p>{text}</p>
+                </PillarText>
+              </Pillar>
+            ))}
+          </Pillars>
+        </TextCol>
+
+        <ImageCol variants={slideRight} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
+          <ImageWrapper>
+            <img src="/pic/cato2.jpg" alt="Cato Akay in competition" />
+          </ImageWrapper>
+          <ImageBadge>
+            <span>Norwegian Throwdown</span>
+            <strong>Champion</strong>
+          </ImageBadge>
+        </ImageCol>
+      </Layout>
+    </Section>
   );
 }
 
